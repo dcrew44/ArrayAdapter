@@ -1,37 +1,43 @@
 package com.example.arrayadapter;
 
-import android.app.Activity;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class WordAdapter extends ArrayAdapter<Word> {
-    public WordAdapter(Activity context, ArrayList<Word> words) {
-        super(context, 0, words);
+public class WordAdapter extends RecyclerView.Adapter<WordHolder> {
+    private final Word[] words;
+
+    public WordAdapter(Word[] words) {
+        this.words = words;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Word currentWord = getItem(position);
-
-        View listItemView = convertView;
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.word_item, parent, false);
-        }
-
-        TextView englishTextView = (TextView) listItemView.findViewById(R.id.textView1);
-        TextView numberTextView = (TextView) listItemView.findViewById(R.id.textView2);
-        ImageView imageView = (ImageView) listItemView.findViewById(R.id.imageView2);
-
-        englishTextView.setText(currentWord.getEWord());
-        numberTextView.setText(currentWord.getMWord());
-        imageView.setImageResource(currentWord.getImageId());
-
-
-        return listItemView;
+    @NonNull
+    @Override
+    public WordHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.word_item, parent, false);
+        return new WordHolder(view);
     }
+
+    @Override
+    public void onBindViewHolder(WordHolder holder, int position) {
+        Word word = words[position];
+        holder.geteWord().setText(word.getEWord());
+        holder.getmWord().setText(word.getMWord());
+        holder.getImage().setImageResource(word.getImageId());
+        holder.itemView.setOnClickListener(v -> {
+            MediaPlayer mediaPlayer = MediaPlayer.create(v.getContext(), word.getAudioId());
+            mediaPlayer.start();
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return words.length;
+    }
+
+
 }

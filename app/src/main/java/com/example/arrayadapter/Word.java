@@ -1,12 +1,12 @@
 package com.example.arrayadapter;
 
 public class Word {
-    private String eWord;
-    private String mWord;
-    private int audioId;
     public int imageId;
+    private final String eWord;
+    private final String mWord;
+    private final int audioId;
 
-    public Word(String eWord, String mWord,int audioId, int imageId) {
+    public Word(String eWord, String mWord, int audioId, int imageId) {
         this.eWord = eWord;
         this.mWord = mWord;
         this.audioId = audioId;
@@ -30,20 +30,8 @@ public class Word {
         return audioId;
     }
 
-    // Setters
-    public void setEWord(String eWord) {
-        this.eWord = eWord;
-    }
 
-    public void setMWord(String mWord) {
-        this.mWord = mWord;
-    }
-
-    public void setAudioId(int audioId) {
-        this.audioId = audioId;
-    }
-
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public boolean hasImage() {
+        return imageId != -1;
     }
 }
